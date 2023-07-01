@@ -1,0 +1,181 @@
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Configs - these are values that you can update dynamically */
+:root {
+    --game-speed: 0; /* In ms  */
+    --jump-speed: 0; /* In ms  */
+    --max-jump: 0;  /* In percentage  */
+    --speed-scale: 0;  
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    /* we do this because if you're on a mobile or tablet you can select texts which we dont want because this is a game*/
+    font-family: 'VT323', monospace;
+}
+
+html {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Game container */
+#game {
+    position: relative;
+    /* width: 1051px;
+    height: 384px; */
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.score {
+    position: absolute;
+    right: 0;
+    font-size: xxx-large;
+    color: #535353;
+}
+
+.messages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    font-size: xx-large;
+    color: #535353;
+}
+
+.messages p {
+    display: none;
+}
+
+/* Before the game starts */
+/* Anything else that's not the first child is going to be hidden */
+.messages p:first-child {
+    display: block;
+}
+
+/* After the game starts */
+.game-start .messages p:first-child {
+    display: none;
+}
+
+/* Game over message */
+.game-over .messages p:last-child {
+    display: block;
+}
+
+.ground {
+    position: absolute;
+    bottom: 0;
+    background-image: url(assets/images/ground.png);
+    background-repeat: repeat-x;
+    /* we set the background to repeat-x cos we want the image to repeat endlessly */
+    width: 7197px; /* 3 times the original width (2399px) this is so that the image becomes endless */
+    height: 24px;
+    /* to make the image look sharp */
+    image-rendering: pixelated;
+    /* to use the keyframes animation, we use animation and then key in the name of the animation you've created and how many seconds you want the animation to run */
+    animation: ground-animation calc(var(--game-speed) * 1ms) linear infinite;
+    /* the speed should increase slowly, so we created :root global variables */
+    /* we use calc() to calculate and convert the var() into ms */
+}
+
+.game-start .ground {
+    animation: ground-animation calc(var(--game-speed) * 1ms) linear infinite;;
+}
+
+.game-over .ground {
+    animation-play-state: paused;
+}
+
+
+/* whenever the ground moves the children inside will move as well so we dont have to create 2 animations */
+/* to use a css animation we use keyframe */
+
+@keyframes ground-animation {
+    /* our ground is going to start from right and scroll to the left */
+    /* keyframes uses % */
+    0% {
+        left: 0;
+    }
+    100% {
+        left: -2399px;
+        /* we use minus because its supposed to move to the left so we move the entire width of the ground*/
+    }
+}
+
+.dino {
+    position: absolute;
+    bottom: 0;
+    background-image: url(assets/images/dino/dino_initial.png);
+    background-repeat: no-repeat;
+    /* no repeat cos we want just one singular image */
+    image-rendering: pixelated;
+    width: 88px;
+    height: 94px;
+    left: 1%;
+    /* animation: dino-jump-animation calc(var(--jump-speed) * 1ms) linear infinite; */
+}
+
+.dino.jump {
+    animation: dino-jump-animation calc(var(--jump-speed) * 1ms) linear;
+}
+
+@keyframes dino-jump-animation {
+    0% {
+        transform: translate3d(0, 0, 0);
+        /* in terms of performance translate3d is better than translateY */
+        animation-timing-function: cubic-bezier(0.33333, 0.66667, 0.66667, 1);
+        /* Based on a formula (before jump), for a gravity effect (not so robotic, make it more natural) */
+    }
+    50% {
+        transform: translate3d(0, calc(var(--max-jump) * -1%), 0);
+        animation-timing-function: cubic-bezier(0.33333, 0, 0.66667, 0.33333);
+        /* Based on a formula (after jump), for a gravity effect (not so robotic, make it more natural) */
+    }
+    100% {  
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.cactus {
+    position: absolute;
+    bottom: 0;
+    left: 2000px;
+    /* we want the cactus to be generated outside of the viewport */
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
+
+.cactus-small-1 {
+    background-image: url(assets/images/cacti/cacti_small_1.png);
+    height: 70px;
+    width: 34px;
+}
+
+.cactus-small-2 {
+    background-image: url(assets/images/cacti/cacti_small_2.png);
+    height: 70px;
+    width: 68px;
+}
+
+.cactus-small-3 {
+    background-image: url(assets/images/cacti/cacti_small_3.png);
+    height: 70px;
+    width: 102px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+}
