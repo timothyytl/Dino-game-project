@@ -4,4 +4,17 @@
 
 My little game project to learn and better understand Javascript coding algorithms. 
 
+#
+### GAMEPLAY
+
+* To start the game, just press on any button on your keyboard.
+* Press the "SPACE" button to jump the Dino over the obstacles to keep the game going.
+* As soon as the Dino hits the obstacle (the cactus), it's GAME OVER!
+* Note: the game speeds up after every 100 points gained so buckle up and see how much you can score as the game gets faster and faster! Enjoy!
+
+
+Here's the link to my Dino game: https://timothyytl.github.io/Dino-game-project/
+
+
+
 
